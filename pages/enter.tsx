@@ -157,13 +157,12 @@ function UsernameMessage({ username, isValid, loading }) {
   if (loading) {
     return <p>Checking...</p>;
   } else if (isValid) {
-    return <p className="text-success">{username} is available!</p>;
+    return <p className="text-success">Username "{username}" is available!</p>;
   } else if (username && !isValid) {
     if (username.length < 3) {
       return <p className="text-danger">Username is too short!</p>;
     }
-
-    return <p className="text-danger">That username is taken!</p>;
+    return <p className="text-danger">That username is already taken!</p>;
   } else {
     return <p></p>;
   }
