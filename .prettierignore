@@ -1,0 +1,11 @@
+# Ignore artifacts:
+build
+coverage
+public
+.next
+next-env.d.ts
+README.md
+tsconfig.json
+.eslintrc.json
+.prettierrc.json
+package*.json
