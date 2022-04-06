@@ -1,27 +1,53 @@
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import toast from "react-hot-toast";
+import { useState } from "react";
 import Loader from "../components/Loader";
-import styles from "../styles/Home.module.css";
+import PostFeed from "../components/PostFeed";
+import { fromMillis, getFeedPosts, postToJSON } from "../lib/firebase";
 
-export default function Home() {
+// Max post to query per page
+const LIMIT = 1;
+
+export async function getServerSideProps(context) {
+  const posts = (await getFeedPosts(LIMIT, null)).map(postToJSON);
+
+  return {
+    props: { posts },
+  };
+}
+
+export default function Home(props) {
+  const [posts, setPosts] = useState(props.posts);
+  const [loading, setLoading] = useState(false);
+  const [postsEnd, setPostsEnd] = useState(false);
+
+  const getMorePosts = async () => {
+    setLoading(true);
+    const last = posts[posts.length - 1];
+
+    const cursor =
+      typeof last.createdAt === "number"
+        ? fromMillis(last.createdAt)
+        : last.createdAt;
+
+    const newPosts = (await getFeedPosts(LIMIT, cursor)).map(postToJSON);
+    setPosts(posts.concat(newPosts));
+    setLoading(false);
+
+    if (newPosts.length < LIMIT) {
+      setPostsEnd(true);
+    }
+  };
+
   return (
-    <div>
-      <Link
-        prefetch={false}
-        href={{
-          pathname: "/[username]",
-          query: { username: "matej" },
-        }}
-      >
-        <a>Matej's profile</a>
-      </Link>
+    <main>
+      <PostFeed posts={posts} />
 
-      <button onClick={() => toast.success("Hello toast 🍿")}>
-        Show me magic!
-      </button>
-      <Loader show />
-    </div>
+      {!loading && !postsEnd && (
+        <button onClick={getMorePosts}>Load more</button>
+      )}
+
+      <Loader show={loading} />
+
+      {postsEnd && "You have reached the end!"}
+    </main>
   );
 }
