@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { collection, collectionGroup, DocumentSnapshot, getDocs, getFirestore, limit, orderBy, query, startAfter, where, Timestamp, Query, DocumentData, DocumentReference, getDoc, doc } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { collection, collectionGroup, DocumentSnapshot, getDocs, getFirestore, limit, orderBy, query, startAfter, where, Timestamp, Query, DocumentData, doc, serverTimestamp } from "firebase/firestore";
+import { getStorage, TaskEvent } from "firebase/storage";
 
 // TODO(matej): Export Firebase config to .env file
 const firebaseConfig = {
@@ -25,9 +25,18 @@ export const storage = getStorage(app);
 
 /**
  * Gets a user/{uid} document with username
+ * @param  {string} uid
+ */
+export async function getUserPosts(uid) {
+  const q = query(collection(firestore, `users/${uid}/posts`), orderBy("createdAt"));
+  return (await getDocs(q)).docs[0];
+}
+
+/**
+ * Gets a user/{uid} document with username
  * @param  {string} username
  */
-export async function getUserWithUsername(username) {
+ export async function getUserWithUsername(username) {
   const q = query(collection(firestore, 'users'), where('username', '==', username), limit(1));
   return (await getDocs(q)).docs[0];
 }
@@ -98,3 +107,4 @@ export function postToJSON(doc: DocumentSnapshot) {
 }
 
 export const fromMillis = Timestamp.fromMillis;
+export const serverTimestampField = serverTimestamp;
