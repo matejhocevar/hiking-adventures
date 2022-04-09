@@ -111,7 +111,6 @@ function UsernameForm() {
         const docSnap = await getDoc(ref);
         const exists = docSnap.exists();
 
-        console.log("Firestore read executed!");
         setIsValid(!exists);
         setLoading(false);
       }

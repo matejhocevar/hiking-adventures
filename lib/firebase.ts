@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { collection, collectionGroup, DocumentSnapshot, getDocs, getFirestore, limit, orderBy, query, startAfter, where, Timestamp, Query, DocumentData, doc, serverTimestamp } from "firebase/firestore";
-import { getStorage, TaskEvent } from "firebase/storage";
+import { collection, collectionGroup, DocumentSnapshot, getDocs, getFirestore, limit, orderBy, query, startAfter, where, Timestamp, Query, DocumentData, doc, serverTimestamp, increment } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 // TODO(matej): Export Firebase config to .env file
 const firebaseConfig = {
@@ -108,3 +108,4 @@ export function postToJSON(doc: DocumentSnapshot) {
 
 export const fromMillis = Timestamp.fromMillis;
 export const serverTimestampField = serverTimestamp;
+export const incrementField = increment;

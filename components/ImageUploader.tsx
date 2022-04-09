@@ -15,14 +15,11 @@ export default function ImageUploader() {
     const file: any = Array.from(e.target.files)[0];
     const extension = file.type.split("/")[1];
 
-    console.log(file, extension);
-
     // Makes reference to the storage bucket location
     const imageRef = ref(
       storage,
       `uploads/${auth.currentUser.uid}/${Date.now()}.${extension}`
     );
-    console.log(imageRef);
     setUploading(true);
 
     // Starts the upload
@@ -36,7 +33,6 @@ export default function ImageUploader() {
           ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0)
         );
         setProgress(pct);
-        console.log("Upload is " + progress + "% done");
       },
       (error) => console.log(error),
       () => {

@@ -30,8 +30,6 @@ function PostManager() {
   const router = useRouter();
   const { slug } = router.query;
 
-  console.log(`/users/${auth.currentUser.uid}/posts/${slug}`);
-
   const postRef = doc(
     firestore,
     `/users/${auth.currentUser.uid}/posts/${slug}`
