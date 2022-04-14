@@ -53,31 +53,31 @@ export default function Reactions({ postRef }) {
   );
   reactions.sort();
 
-  const renderReactions: any[] = reactions.map(([k, r], i) => {
-    const countName = k;
-    const name = countName.replace("__count", "");
-    const countNum = (post && countName in post && post[countName]) || 0;
-    const isReactionUsed = userReactionsDoc?.exists
-      ? userReactionsDoc.data() != null && name in userReactionsDoc.data()
-      : false;
-    const action = isReactionUsed ? removeReaction : addReaction;
+  const renderReactions: any[] = reactions
+    .map(([k, r], i) => {
+      const countName = k;
+      const name = countName.replace("__count", "");
+      const countNum = (post && countName in post && post[countName]) || 0;
+      const isReactionUsed = userReactionsDoc?.exists
+        ? userReactionsDoc.data() != null && name in userReactionsDoc.data()
+        : false;
+      const action = isReactionUsed ? removeReaction : addReaction;
 
-    return (
-      <>
-        {countNum > 0 ? (
-          <button
-            className={isReactionUsed ? "btn-green" : ""}
-            key={`reaction-${i}`}
-            title={name}
-            onClick={() => action(name)}
-          >
-            <span className="icon">{emoji.getUnicode(name)}</span>
-            <span className="number">{countNum}</span>
-          </button>
-        ) : null}
-      </>
-    );
-  });
+      if (countNum === 0) return null;
+
+      return (
+        <button
+          key={`reaction-${name}`}
+          className={isReactionUsed ? "btn-green" : ""}
+          title={name}
+          onClick={() => action(name)}
+        >
+          <span className="icon">{emoji.getUnicode(name)}</span>
+          <div className="number">{countNum}</div>
+        </button>
+      );
+    })
+    .filter((r) => r != null);
 
   const onEmojiClick = (event, emojiObject) => {
     const name = emojiObject.names[1];
@@ -95,14 +95,16 @@ export default function Reactions({ postRef }) {
   };
 
   return (
-    <>
-      <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-        {showEmojiPicker ? "-" : "+"}
-      </button>
-      <div className={styles.reactions}>{renderReactions}</div>
+    <div className={styles.reactionsContainer}>
+      <section>
+        <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+          <img src={"/show_emoji.png"} width="16" height="16" />
+        </button>
+        {renderReactions}
+      </section>
       {showEmojiPicker ? (
         <Picker onEmojiClick={onEmojiClick} disableSkinTonePicker={true} />
       ) : null}
-    </>
+    </div>
   );
 }

@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+
+      
+      // Required for collection group queries
+      match /posts/{postId} {
+      	allow read;
+      }
+      
+      
+      match /users/{userId} {
+      	allow read;
+        allow create: if isValidUser(userId);
+      }
+      
+      match /usernames/{username} {
+      	allow read;
+        allow create: if isValidUsername(username);
+      }
+
+      
+      match /users/{userId}/posts/{postId} {
+      	allow read;
+        allow create: if canCreatePost(userId); 
+        allow update: if true;
+        // allow update: if canUpdatePost(userId) || canIncrementReactions(userId, postId);
+        allow delete: if request.auth.uid == userId;
+      }
+      
+      match /users/{userId}/posts/{postId}/reactions/{reactionId} {
+      		allow read;
+        	allow write: if request.auth.uid == reactionId;
+      }
+
+      
+      
+      function canCreatePost(userId) {
+        let isOwner = request.auth.uid == userId;
+        let isNow = request.time == request.resource.data.createdAt;
+        let isValidContent = request.resource.data.content.size() < 20000;
+        let username = get(/databases/$(database)/documents/users/$(request.auth.uid)).data.username;
+        let usernameMatches = username == request.resource.data.username;
+
+      	return isOwner && isNow && isValidContent && usernameMatches;
+      }
+      
+      function canUpdatePost(userId) {
+      	let isNow = request.time == request.resource.data.updatedAt;
+        let isValidContent = request.resource.data.content.size() < 20000;
+        let doesNotUpdateForbidden = !request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'username']);
+        
+        return isNow && isValidContent && doesNotUpdateForbidden;
+      }
+      
+      function canIncrementReactions(userId, postId) {
+        let affectedKeys = request.resource.data.diff(resource.data).affectedKeys();
+        let reactionName = affectedKeys[0];
+        let currentUser = request.auth.uid;
+		    let reactionDocExistsAfter = existsAfter(/databases/$(database)/documents/users/$(userId)/posts/$(postId)/reactions/$(currentUser));
+        let reactionDocExists = exists(/databases/$(database)/documents/users/$(userId)/posts/$(postId)/reactions/$(currentUser));
+				
+        let reactionDocAdded = !reactionDocExists && reactionDocExistsAfter;
+        let reactionDocRemoved = reactionDocExists && !reactionDocExistsAfter;
+
+        let countChange = request.resource.data[reactionName] - resource.data[reactionName];
+        let validChange = countChange == 1 || countChange == -1;
+
+        return affectedKeys.size() == 1 && validChange && ( countChange == 1 ? reactionDocAdded : reactionDocRemoved );
+      }
+      
+  
+      
+      function isValidUser(userId) {
+        let isOwner = request.auth.uid == userId;
+      	let username = request.resource.data.username;
+        let createdValidUsername = existsAfter(/databases/$(database)/documents/usernames/$(username));
+        
+        return isOwner && createdValidUsername;
+      }
+      
+      function isValidUsername(username) {
+		let isOwner = request.auth.uid == request.resource.data.uid;
+        let isValidLength = username.size() >= 3 && username.size() <= 15;
+        let isValidUserDoc = getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.username == username;
+        
+        return isOwner && isValidLength && isValidUserDoc;     
+      }
+      
+    }
+    
+  }
+}
