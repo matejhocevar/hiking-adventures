@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { auth, firestore, googleAuthProvider } from "../lib/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { UserContext } from "../lib/context";
@@ -40,7 +41,7 @@ function SignInButton() {
 
   return (
     <button className="btn-google" onClick={signInWithGoogle}>
-      <img src={"/google.png"} /> Sign in with Google
+      <Image src={"/google.png"} alt="Google logo" /> Sign in with Google
     </button>
   );
 }
@@ -156,7 +157,11 @@ function UsernameMessage({ username, isValid, loading }) {
   if (loading) {
     return <p>Checking...</p>;
   } else if (isValid) {
-    return <p className="text-success">Username "{username}" is available!</p>;
+    return (
+      <p className="text-success">
+        Username &apos;{username}&apos; is available!
+      </p>
+    );
   } else if (username && !isValid) {
     if (username.length < 3) {
       return <p className="text-danger">Username is too short!</p>;

@@ -82,7 +82,7 @@ export default function PostPage(props) {
       <section className="controls card">
         <AuthCheck
           fallback={
-            <Link href="/enter">
+            <Link href="/enter" passHref>
               <button>👍 Sign Up to like</button>
             </Link>
           }

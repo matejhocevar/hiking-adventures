@@ -1,4 +1,5 @@
 import styles from "../styles/Post.module.css";
+import Image from "next/image";
 import { deleteField, doc, increment, writeBatch } from "firebase/firestore";
 import { useDocument, useDocumentData } from "react-firebase-hooks/firestore";
 import { auth, firestore } from "../lib/firebase";
@@ -98,7 +99,12 @@ export default function Reactions({ postRef }) {
     <div className={styles.reactionsContainer}>
       <section>
         <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-          <img src={"/show_emoji.png"} width="16" height="16" />
+          <Image
+            src={"/show_emoji.png"}
+            width="16"
+            height="16"
+            alt="Show emoji"
+          />
         </button>
         {renderReactions}
       </section>

@@ -14,13 +14,13 @@ function PostItem({ post, admin = false }) {
 
   return (
     <div className="card">
-      <Link href={`/${post.username}`}>
+      <Link href={`/${post.username}`} passHref>
         <a>
           <strong>By @{post.username}</strong>
         </a>
       </Link>
 
-      <Link href={`/${post.username}/${post.slug}`}>
+      <Link href={`/${post.username}/${post.slug}`} passHref>
         <h2>
           <a>{post.title}</a>
         </h2>

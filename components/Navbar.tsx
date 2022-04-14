@@ -10,7 +10,7 @@ export default function Navbar() {
     <nav className="navbar">
       <ul>
         <li>
-          <Link href="/">
+          <Link href="/" passHref>
             <button className="btn-logo">N&B</button>
           </Link>
         </li>
@@ -19,13 +19,13 @@ export default function Navbar() {
         {username && (
           <>
             <li className="push-left">
-              <Link href="/admin">
+              <Link href="/admin" passHref>
                 <button className="btn-blue">Write Posts</button>
               </Link>
             </li>
             <li>
-              <Link href={`/${username}`}>
-                <img src={user?.photoURL} />
+              <Link href={`/${username}`} passHref>
+                <img src={user?.photoURL} alt={username} layout="fill" />
               </Link>
             </li>
           </>
@@ -34,7 +34,7 @@ export default function Navbar() {
         {/* user is not signed OR has not created username */}
         {!username && (
           <li>
-            <Link href="/enter">
+            <Link href="/enter" passHref>
               <button className="btn-blue">Log in</button>
             </Link>
           </li>
