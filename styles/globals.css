@@ -271,3 +271,27 @@ input[type="file"] {
 .hidden {
   display: none;
 }
+
+/* Table */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+.table th, .table td {
+  padding: 0.75rem;
+  vertical-align: top;
+}
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+.table-sm th, .table-sm td {
+  padding: 0.3rem;
+}
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+.table-bordered th, .table-bordered td {
+  border: 1px solid #dee2e6;
+}

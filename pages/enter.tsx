@@ -1,10 +1,11 @@
-import Image from "next/image";
 import { auth, firestore, googleAuthProvider } from "../lib/firebase";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { UserContext } from "../lib/context";
 import { useState, useContext, useEffect, useCallback } from "react";
 import { doc, getDoc, writeBatch } from "firebase/firestore";
 import debounce from "lodash.debounce";
+import SignOutButton from "../components/SignOutButton";
+import { useRouter } from "next/router";
 
 export default function EnterPage({}) {
   const { user, username } = useContext(UserContext);
@@ -30,25 +31,22 @@ export default function EnterPage({}) {
 
 // Sign in with Google button
 function SignInButton() {
+  const router = useRouter();
+
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuthProvider);
+      router.replace("/");
     } catch (error) {
-      // TODO(matej): Handle error
       console.log(error);
     }
   };
 
   return (
     <button className="btn-google" onClick={signInWithGoogle}>
-      <Image src={"/google.png"} alt="Google logo" /> Sign in with Google
+      <img src={"/google.png"} alt="Google logo" /> Sign in with Google
     </button>
   );
-}
-
-// Sign out button
-function SignOutButton() {
-  return <button onClick={() => auth.signOut()}>Sign Out</button>;
 }
 
 function UsernameForm() {
@@ -95,8 +93,6 @@ function UsernameForm() {
       setIsValid(false);
     }
   };
-
-  //
 
   useEffect(() => {
     checkUsername(formValue);

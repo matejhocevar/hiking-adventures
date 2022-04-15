@@ -1,5 +1,5 @@
 import styles from "../../styles/Admin.module.css";
-import { doc, setDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {
@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import ImageUploader from "../../components/ImageUploader";
+import MarkdownInstructions from "../../components/MarkdownInstructions";
 
 export default function AdminPostEdit({}) {
   return (
@@ -59,6 +60,7 @@ function PostManager() {
             <Link href={`/${post.username}/${post.slug}`} passHref>
               <button className="btn-blue">Live view</button>
             </Link>
+            <DeletePostButton postRef={postRef} />
           </aside>
         </>
       )}
@@ -78,7 +80,9 @@ function PostForm({ defaultValues, postRef, preview }) {
     mode: "onChange",
   });
 
-  const { isValid, isDirty } = errors;
+  let { isValid, isDirty } = errors;
+  isValid = isValid || true;
+  isDirty = isDirty || false;
 
   const updatePost = async ({ content, published }) => {
     await setDoc(
@@ -97,48 +101,70 @@ function PostForm({ defaultValues, postRef, preview }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(updatePost)}>
-      {preview && (
-        <div className="card">
-          <ReactMarkdown>{watch("content")}</ReactMarkdown>
-        </div>
-      )}
-
-      <div className={preview ? styles.hidden : styles.controls}>
-        <ImageUploader />
-
-        <textarea
-          name="content"
-          {...register("content", {
-            maxLength: { value: 20000, message: "Content is too long" },
-            minLength: { value: 10, message: "Content is too short" },
-            required: { value: true, message: "Content is required" },
-          })}
-        ></textarea>
-
-        {errors?.content && (
-          <p className="text-danger">{errors.content.message}</p>
+    <>
+      <form onSubmit={handleSubmit(updatePost)}>
+        {preview && (
+          <div className="card">
+            <ReactMarkdown>{watch("content")}</ReactMarkdown>
+          </div>
         )}
 
-        <fieldset>
-          <input
-            id="published"
-            className={styles.checkbox}
-            name="published"
-            type="checkbox"
-            {...register("published")}
-          />
-          <label htmlFor="published">Published</label>
-        </fieldset>
+        <div className={preview ? styles.hidden : styles.controls}>
+          <ImageUploader />
 
-        <button
-          type="submit"
-          className="btn-green"
-          disabled={!isDirty || !isValid}
-        >
-          Save Changes
-        </button>
-      </div>
-    </form>
+          <textarea
+            name="content"
+            {...register("content", {
+              maxLength: { value: 20000, message: "Content is too long" },
+              minLength: { value: 10, message: "Content is too short" },
+              required: { value: true, message: "Content is required" },
+            })}
+          ></textarea>
+
+          {errors?.content && (
+            <p className="text-danger">{errors.content.message}</p>
+          )}
+
+          <fieldset>
+            <input
+              id="published"
+              className={styles.checkbox}
+              name="published"
+              type="checkbox"
+              {...register("published")}
+            />
+            <label htmlFor="published">Published</label>
+          </fieldset>
+
+          <button
+            type="submit"
+            className="btn-green"
+            disabled={isDirty && !isValid}
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+      <MarkdownInstructions />
+    </>
+  );
+}
+
+function DeletePostButton({ postRef }) {
+  const router = useRouter();
+
+  const deletePost = async () => {
+    const doIt = confirm("Are you sure?");
+    if (doIt) {
+      await deleteDoc(postRef);
+      router.push("/admin");
+      toast("Post deleted successfully ", { icon: "🗑️" });
+    }
+  };
+
+  return (
+    <button className="btn-red" onClick={deletePost}>
+      Delete
+    </button>
   );
 }

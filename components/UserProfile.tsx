@@ -1,3 +1,5 @@
+import SignOutButton from "./SignOutButton";
+
 export default function UserProfile({ user }) {
   return (
     <div className="box-center">
@@ -10,6 +12,7 @@ export default function UserProfile({ user }) {
         <i>@{user.username}</i>
       </p>
       <h1>{user.displayName}</h1>
+      <SignOutButton />
     </div>
   );
 }
