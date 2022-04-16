@@ -4,7 +4,7 @@ import PostFeed from "../components/PostFeed";
 import { fromMillis, getFeedPosts, postToJSON } from "../lib/firebase";
 
 // Max post to query per page
-const LIMIT = 1;
+const LIMIT = 5;
 
 export async function getServerSideProps(context) {
   const posts = (await getFeedPosts(LIMIT, null)).map(postToJSON);

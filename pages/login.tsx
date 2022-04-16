@@ -7,7 +7,7 @@ import debounce from "lodash.debounce";
 import SignOutButton from "../components/SignOutButton";
 import { useRouter } from "next/router";
 
-export default function EnterPage({}) {
+export default function LoginPage({}) {
   const { user, username } = useContext(UserContext);
 
   // 1. user signed out <SignInButton />
