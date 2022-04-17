@@ -14,14 +14,18 @@ import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import ImageUploader from "../../components/ImageUploader";
 import MarkdownInstructions from "../../components/MarkdownInstructions";
+import PageFooter from "../../components/PageFooter";
 
 export default function AdminPostEdit({}) {
   return (
-    <main>
-      <AuthCheck>
-        <PostManager />
-      </AuthCheck>
-    </main>
+    <>
+      <main>
+        <AuthCheck>
+          <PostManager />
+        </AuthCheck>
+      </main>
+      <PageFooter></PageFooter>
+    </>
   );
 }
 

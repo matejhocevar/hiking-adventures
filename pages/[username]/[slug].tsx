@@ -22,6 +22,7 @@ import Metatags from "../../components/Metatags";
 import AuthCheck from "../../components/AuthCheck";
 import Link from "next/link";
 import Reactions from "../../components/Reactions";
+import PageFooter from "../../components/PageFooter";
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
@@ -73,23 +74,26 @@ export default function PostPage(props) {
   const post = realtimePost || props.post;
 
   return (
-    <main className={styles.container}>
-      <Metatags title={post.title} description={post.description} />
-      <section>
-        <PostContent post={post} />
-      </section>
+    <>
+      <main className={styles.container}>
+        <Metatags title={post.title} description={post.description} />
+        <section>
+          <PostContent post={post} />
+        </section>
 
-      <section className="controls card">
-        <AuthCheck
-          fallback={
-            <Link href="/login" passHref>
-              <button>👍 Sign Up to like</button>
-            </Link>
-          }
-        >
-          <Reactions postRef={postRef} />
-        </AuthCheck>
-      </section>
-    </main>
+        <section className="controls card">
+          <AuthCheck
+            fallback={
+              <Link href="/login" passHref>
+                <button>👍 Sign Up to like</button>
+              </Link>
+            }
+          >
+            <Reactions postRef={postRef} />
+          </AuthCheck>
+        </section>
+      </main>
+      <PageFooter></PageFooter>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Loader from "../components/Loader";
+import PageFooter from "../components/PageFooter";
 import PostFeed from "../components/PostFeed";
 import { fromMillis, getFeedPosts, postToJSON } from "../lib/firebase";
 
@@ -38,16 +39,19 @@ export default function Home(props) {
   };
 
   return (
-    <main>
-      <PostFeed posts={posts} />
+    <>
+      <main>
+        <PostFeed posts={posts} />
 
-      {!loading && !postsEnd && (
-        <button onClick={getMorePosts}>Load more</button>
-      )}
+        {!loading && !postsEnd && (
+          <button onClick={getMorePosts}>Load more</button>
+        )}
 
-      <Loader show={loading} />
+        <Loader show={loading} />
 
-      {postsEnd && "You have reached the end!"}
-    </main>
+        {postsEnd && "You have reached the end!"}
+      </main>
+      <PageFooter></PageFooter>
+    </>
   );
 }

@@ -1,3 +1,4 @@
+import PageFooter from "../../components/PageFooter";
 import PostFeed from "../../components/PostFeed";
 import UserProfile from "../../components/UserProfile";
 import {
@@ -30,9 +31,12 @@ export async function getServerSideProps({ query }) {
 
 export default function UserProfilePage({ user, posts }) {
   return (
-    <main>
-      <UserProfile user={user}></UserProfile>
-      <PostFeed posts={posts}></PostFeed>
-    </main>
+    <>
+      <main>
+        <UserProfile user={user}></UserProfile>
+        <PostFeed posts={posts}></PostFeed>
+      </main>
+      <PageFooter></PageFooter>
+    </>
   );
 }

@@ -13,9 +13,16 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Noto Sans", sans-serif;
-  background-color: var(--color-bg);
+  background-color: white;
   color: var(--color-text);
+}
+
+body {
   margin-top: 50px;
+  min-height: calc(100vh - 50px);
+  height: 100%;
+  background: white;
+  background: linear-gradient(0deg, rgba(225,207,164,1) 0%, rgba(187,202,203,1) 33%, rgba(255, 255, 255, 1) 100%);
 }
 
 main {
@@ -272,6 +279,14 @@ input[type="file"] {
   display: none;
 }
 
+.no-margin {
+  margin: 0;
+}
+
+.no-padding {
+  padding: 0;
+}
+
 /* Table */
 .table {
   width: 100%;
@@ -294,4 +309,21 @@ input[type="file"] {
 }
 .table-bordered th, .table-bordered td {
   border: 1px solid #dee2e6;
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  height: 519px;
+}
+
+.footer > section {
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-size: contain;
+  background-repeat:  no-repeat;
+  background-position-y: bottom;
+  background-position-x: center;
 }

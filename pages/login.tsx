@@ -6,6 +6,7 @@ import { doc, getDoc, writeBatch } from "firebase/firestore";
 import debounce from "lodash.debounce";
 import SignOutButton from "../components/SignOutButton";
 import { useRouter } from "next/router";
+import PageFooter from "../components/PageFooter";
 
 export default function LoginPage({}) {
   const { user, username } = useContext(UserContext);
@@ -15,17 +16,20 @@ export default function LoginPage({}) {
   // 3. user signed in, has username <SignOutButton />
 
   return (
-    <main>
-      {user ? (
-        !username ? (
-          <UsernameForm />
+    <>
+      <main>
+        {user ? (
+          !username ? (
+            <UsernameForm />
+          ) : (
+            <SignOutButton />
+          )
         ) : (
-          <SignOutButton />
-        )
-      ) : (
-        <SignInButton />
-      )}
-    </main>
+          <SignInButton />
+        )}
+      </main>
+      <PageFooter></PageFooter>
+    </>
   );
 }
 
@@ -43,9 +47,22 @@ function SignInButton() {
   };
 
   return (
-    <button className="btn-google" onClick={signInWithGoogle}>
-      <img src={"/google.png"} alt="Google logo" /> Sign in with Google
-    </button>
+    <div style={{ padding: "50px 0" }}>
+      <h1>Login to your account</h1>
+      <p>
+        In order to use some more features like:
+        <ul>
+          <li>React to posts,</li>
+          <li>Write new posts,</li>
+          <li>Manage existing posts</li>
+        </ul>
+        you must sign in with your Google account.
+      </p>
+
+      <button className="btn-google" onClick={signInWithGoogle}>
+        <img src={"/google.png"} alt="Google logo" /> Sign in with Google
+      </button>
+    </div>
   );
 }
 
