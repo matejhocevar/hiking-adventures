@@ -118,7 +118,7 @@ export default function PageFooter({}) {
           height: footerWidth > 1749 ? footerHeight : 600,
           backgroundSize: footerWidth > 1749 ? "cover" : "contain",
           backgroundPositionY: footerWidth > 1749 ? "top" : "bottom",
-          backgroundImage: "url('/footer/p6.png')",
+          backgroundImage: "url('/footer/p5.png')",
         }}
       ></section>
     </div>
