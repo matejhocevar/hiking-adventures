@@ -36,7 +36,6 @@ export default function PageFooter({}) {
 
         const width = document.documentElement.clientWidth;
         if (width > 819 && i === ANIMATION_FRAMES_END.length - 1) {
-          console.log("done", footerWidth);
           end = -80;
         }
 
