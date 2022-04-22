@@ -15,7 +15,11 @@ export default function PostContent({ post }) {
         <Link href={`/${post.username}/`}>
           <a className="text-info">@{post.username}</a>
         </Link>{" "}
-        on {createdAt.toISOString()}
+        on{" "}
+        {new Intl.DateTimeFormat("sl-SI", {
+          dateStyle: "full",
+          timeStyle: "short",
+        }).format(createdAt)}
       </span>
 
       <ReactMarkdown>{post?.content}</ReactMarkdown>
