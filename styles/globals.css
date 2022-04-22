@@ -109,7 +109,7 @@ code {
 }
 
 /* Main */
-.main {
+main {
   position: relative;
   z-index: 10;
 }

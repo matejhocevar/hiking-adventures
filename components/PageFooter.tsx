@@ -62,7 +62,6 @@ export default function PageFooter({}) {
 
   useEffect(() => {
     handleResize();
-    console.log("Handle resize", footerWidth);
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
