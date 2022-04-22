@@ -32,8 +32,6 @@ export default function PageFooter({}) {
         let start = ANIMATION_FRAMES_START[i];
         let end = ANIMATION_FRAMES_END[i];
 
-        debugger;
-
         const width = document.documentElement.clientWidth;
         if (width > 819 && i === ANIMATION_FRAMES_END.length - 1) {
           end = -80;
@@ -64,6 +62,7 @@ export default function PageFooter({}) {
 
   useEffect(() => {
     handleResize();
+    console.log("Handle resize", footerWidth);
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
@@ -114,7 +113,7 @@ export default function PageFooter({}) {
       <section
         style={{
           bottom: scrollPositions[5],
-          height: footerWidth > 1749 ? footerHeight : 600,
+          height: footerWidth > 1749 ? 600 : footerHeight,
           backgroundSize: footerWidth > 1749 ? "cover" : "contain",
           backgroundPositionY: footerWidth > 1749 ? "top" : "bottom",
           backgroundImage: "url('/footer/p5.png')",

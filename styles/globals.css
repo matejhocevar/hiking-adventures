@@ -108,6 +108,12 @@ code {
   border-radius: 50%;
 }
 
+/* Main */
+.main {
+  position: relative;
+  z-index: 10;
+}
+
 /* Buttons */
 
 .btn,
@@ -319,6 +325,7 @@ input[type="file"] {
 
 .footer > section {
   position: absolute;
+  z-index: 0;
   bottom: 0;
   height: 100%;
   width: 100%;
