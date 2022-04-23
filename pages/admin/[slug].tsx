@@ -2,10 +2,7 @@ import styles from "../../styles/Admin.module.css";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {
-  useDocumentData,
-  useDocumentDataOnce,
-} from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import AuthCheck from "../../components/AuthCheck";
 import { auth, firestore, serverTimestampField } from "../../lib/firebase";
 import Link from "next/link";
@@ -75,6 +72,8 @@ function PostManager() {
 function PostForm({ defaultValues, postRef, preview }) {
   const {
     register,
+    getValues,
+    setValue,
     handleSubmit,
     reset,
     watch,
@@ -104,6 +103,12 @@ function PostForm({ defaultValues, postRef, preview }) {
     toast.success("Post updated successfully!");
   };
 
+  const onImageUploaded = (imageCode: string) => {
+    const prevContent = getValues("content");
+    const content = `${prevContent}\n\n${imageCode}`;
+    setValue("content", content);
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(updatePost)}>
@@ -114,7 +119,7 @@ function PostForm({ defaultValues, postRef, preview }) {
         )}
 
         <div className={preview ? styles.hidden : styles.controls}>
-          <ImageUploader />
+          <ImageUploader onImageUpload={onImageUploaded} />
 
           <textarea
             name="content"

@@ -2,9 +2,10 @@ import { useState } from "react";
 import { auth, storage } from "../lib/firebase";
 import Loader from "./Loader";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import toast from "react-hot-toast";
 
 // Uploads images to Firebase Storage
-export default function ImageUploader() {
+export default function ImageUploader({ onImageUpload }) {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [downloadURL, setDownloadURL] = useState(null);
@@ -34,11 +35,16 @@ export default function ImageUploader() {
         );
         setProgress(pct);
       },
-      (error) => console.log(error),
+      (error) => {
+        console.log(error);
+        toast.error("Failed to upload image!");
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setDownloadURL(url);
           setUploading(false);
+          onImageUpload(`![alt](${url})`);
+          toast.success("Image successfully uploaded and inserted!");
         });
       }
     );
@@ -60,10 +66,6 @@ export default function ImageUploader() {
             />
           </label>
         </>
-      )}
-
-      {downloadURL && (
-        <code className="upload-snippet">{`![alt](${downloadURL})`}</code>
       )}
     </div>
   );
