@@ -1,5 +1,5 @@
 import styles from "../styles/Home.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import PageFooter from "../components/PageFooter";
 import PostFeed from "../components/PostFeed";
@@ -21,6 +21,7 @@ export default function Home(props) {
   const [posts, setPosts] = useState(props.posts);
   const [loading, setLoading] = useState(false);
   const [postsEnd, setPostsEnd] = useState(false);
+  const [showMap, setShowMap] = useState(false);
 
   const getMorePosts = async () => {
     setLoading(true);
@@ -39,6 +40,10 @@ export default function Home(props) {
       setPostsEnd(true);
     }
   };
+
+  useEffect(() => {
+    setShowMap(true);
+  }, []);
 
   return (
     <>

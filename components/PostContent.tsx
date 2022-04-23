@@ -16,10 +16,11 @@ export default function PostContent({ post }) {
           <a className="text-info">@{post.username}</a>
         </Link>{" "}
         on{" "}
-        {new Intl.DateTimeFormat("sl-SI", {
-          dateStyle: "full",
-          timeStyle: "short",
-        }).format(createdAt)}
+        {createdAt != null &&
+          new Intl.DateTimeFormat("sl-SI", {
+            dateStyle: "full",
+            timeStyle: "short",
+          }).format(createdAt)}
       </span>
 
       <ReactMarkdown>{post?.content}</ReactMarkdown>
