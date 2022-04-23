@@ -1,7 +1,9 @@
+import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import Loader from "../components/Loader";
 import PageFooter from "../components/PageFooter";
 import PostFeed from "../components/PostFeed";
+import Map from "../components/Map";
 import { fromMillis, getFeedPosts, postToJSON } from "../lib/firebase";
 
 // Max post to query per page
@@ -40,17 +42,22 @@ export default function Home(props) {
 
   return (
     <>
-      <main>
-        <PostFeed posts={posts} />
+      <main className={styles.container}>
+        <Map />
 
-        {!loading && !postsEnd && (
-          <button onClick={getMorePosts}>Load more</button>
-        )}
+        <div className={styles.postFeed}>
+          <PostFeed posts={posts} />
 
-        <Loader show={loading} />
+          {!loading && !postsEnd && (
+            <button onClick={getMorePosts}>Load more</button>
+          )}
 
-        {postsEnd && "You have reached the end!"}
+          <Loader show={loading} />
+
+          {postsEnd && "You have reached the end!"}
+        </div>
       </main>
+
       <PageFooter></PageFooter>
     </>
   );
