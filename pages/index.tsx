@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import Loader from "../components/Loader";
 import PageFooter from "../components/PageFooter";
@@ -20,6 +21,10 @@ export default function Home(props) {
   const [loading, setLoading] = useState(false);
   const [postsEnd, setPostsEnd] = useState(false);
 
+  const MapWithNoSSR = dynamic(() => import("../components/Map"), {
+    ssr: false,
+  });
+
   const getMorePosts = async () => {
     setLoading(true);
     const last = posts[posts.length - 1];
@@ -41,6 +46,8 @@ export default function Home(props) {
   return (
     <>
       <main>
+        <MapWithNoSSR></MapWithNoSSR>
+
         <PostFeed posts={posts} />
 
         {!loading && !postsEnd && (
