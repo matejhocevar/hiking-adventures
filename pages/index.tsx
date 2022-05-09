@@ -21,7 +21,6 @@ export default function Home(props) {
   const [posts, setPosts] = useState(props.posts);
   const [loading, setLoading] = useState(false);
   const [postsEnd, setPostsEnd] = useState(false);
-  const [showMap, setShowMap] = useState(false);
 
   const getMorePosts = async () => {
     setLoading(true);
@@ -40,10 +39,6 @@ export default function Home(props) {
       setPostsEnd(true);
     }
   };
-
-  useEffect(() => {
-    setShowMap(true);
-  }, []);
 
   return (
     <>
