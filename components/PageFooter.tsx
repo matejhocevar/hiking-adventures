@@ -55,6 +55,8 @@ export default function PageFooter({}) {
       height = Math.min(Math.max(height, 210), 210);
     } else if (width < 919) {
       height = Math.min(Math.max(height, 440), 440);
+    } else {
+      height = 600;
     }
 
     setFooterHeight(height);
