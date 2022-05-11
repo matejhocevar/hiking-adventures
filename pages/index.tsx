@@ -5,6 +5,7 @@ import PageFooter from "../components/PageFooter";
 import PostFeed from "../components/PostFeed";
 import Map from "../components/Map";
 import { fromMillis, getFeedPosts, postToJSON } from "../lib/firebase";
+import Metatags from "../components/Metatags";
 
 // Max post to query per page
 const LIMIT = 5;
@@ -42,6 +43,8 @@ export default function Home(props) {
 
   return (
     <>
+      <Metatags title="Nena & Blaž" />
+
       <main className={styles.container}>
         <Map />
 

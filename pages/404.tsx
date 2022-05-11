@@ -1,9 +1,12 @@
 import Link from "next/link";
+import Metatags from "../components/Metatags";
 import PageFooter from "../components/PageFooter";
 
 export default function Custom404() {
   return (
     <>
+      <Metatags title="404 | Nena & Blaž" />
+
       <main>
         <h1>404 - That page does not seem to exist...</h1>
         <iframe
