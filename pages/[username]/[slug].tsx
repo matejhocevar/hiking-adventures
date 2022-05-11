@@ -23,6 +23,8 @@ import AuthCheck from "../../components/AuthCheck";
 import Link from "next/link";
 import Reactions from "../../components/Reactions";
 import PageFooter from "../../components/PageFooter";
+import PostViewsCount from "../../components/PostViewsCount";
+import AdminCheck from "../../components/AdminCheck";
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
@@ -31,7 +33,7 @@ export async function getStaticProps({ params }) {
   let post;
   let path;
 
-  if (userDoc.exists) {
+  if (userDoc?.exists) {
     const postRef: DocumentReference<DocumentData> =
       await getPostRefWithUidAndSlug(userDoc.id, slug);
     post = postToJSON(await getDoc(postRef));
@@ -77,22 +79,30 @@ export default function PostPage(props) {
     <>
       <main className={styles.container}>
         <Metatags title={post.title} description={post.description} />
+
         <section>
           <PostContent post={post} />
         </section>
 
         <section className="controls card">
-          <AuthCheck
-            fallback={
-              <Link href="/login" passHref>
-                <button>👍 Sign Up to like</button>
-              </Link>
-            }
-          >
-            <Reactions postRef={postRef} />
-          </AuthCheck>
+          <div className={styles.controlsContainer}>
+            <AuthCheck
+              fallback={
+                <Link href="/login" passHref>
+                  <button>👍 Sign Up to like</button>
+                </Link>
+              }
+            >
+              <Reactions postRef={postRef} />
+            </AuthCheck>
+
+            <AdminCheck fallback={<></>}>
+              <PostViewsCount postRef={postRef} />
+            </AdminCheck>
+          </div>
         </section>
       </main>
+
       <PageFooter></PageFooter>
     </>
   );

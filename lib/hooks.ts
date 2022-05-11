@@ -7,6 +7,7 @@ import { auth, firestore } from "./firebase";
 export function useUserData() {
     const [user] = useAuthState(auth);
     const [username, setUsername] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
   
     useEffect(() => {
       let unsubscribe: Unsubscribe | void;
@@ -16,7 +17,9 @@ export function useUserData() {
           unsubscribe = onSnapshot(
             doc(firestore, "users", user.uid),
             (docRef) => {
-              setUsername(docRef.data()?.username);
+              const data = docRef.data();
+              setUsername(data?.username);
+              setIsAdmin(data?.isAdmin ?? false);
             }
           );
         } catch (error) {
@@ -29,6 +32,6 @@ export function useUserData() {
       return unsubscribe;
     }, [user]);
 
-    return {user, username};
+    return {user, username, isAdmin};
 
 }
