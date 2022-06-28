@@ -1,0 +1,141 @@
+.commentBox {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+}
+
+.left {
+    align-items: flex-start;
+}
+
+.right {
+    align-items: flex-end;
+}
+
+.comment {
+    max-width: 255px;
+    word-wrap: break-word;
+    margin: 0;
+    line-height: 24px;
+    position: relative;
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+
+.comment:before, .comment:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 25px;
+}
+
+.author {
+    color: white;;
+    background: #0B93F6;
+    align-self: flex-end;
+}
+
+.author:before {
+    right: -7px;
+    width: 20px;
+    background-color: #0B93F6;
+    border-bottom-left-radius: 16px 14px;
+}
+
+.author::after {
+    right: -26px;
+    width: 26px;
+    background-color: white;
+    border-bottom-left-radius: 10px;
+}
+
+.reader {
+    background: #E5E5EA;
+    color: black;
+    align-self: flex-start;
+    margin-left: 32px;
+}
+
+.reader:before {
+    left: -7px;
+    width: 20px;
+    background-color: #E5E5EA;
+    border-bottom-right-radius: 16px 14px;
+}
+
+.reader:after {
+    left: -26px;
+    width: 26px;
+    background-color: white;
+    border-bottom-right-radius: 10px;
+}
+
+.userBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.userData {
+    display: flex;
+    flex-direction: column;
+}
+
+.user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+}
+
+.createdAt {
+    color: #C8C8C8;
+    font-size: 12px;
+}
+
+.deleteComment {
+    position: relative;
+    right: -32px;
+    margin-right: 8px;
+    color: red;
+    cursor: pointer;
+}
+
+.postComment {
+    margin-top: 72px;
+}
+
+.postCommentHeader {
+    margin: 8px 0;
+}
+
+.commentForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-items: center;
+}
+
+@media only screen and (max-width: 912px) {
+    .commentForm {
+        flex-direction: column;
+    }
+
+    .commentTextInput {
+        width: 100%;
+        min-height: 250px;
+        margin-top: 8px;
+    }
+}
+
+.commentTextInput {
+    flex: 1;
+    margin-right: 0.5rem;
+}

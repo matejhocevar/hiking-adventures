@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function PostFeed({ posts, admin = false }) {
   return posts
@@ -29,6 +30,11 @@ function PostItem({ post, admin = false }) {
       <Link href={`/${post.username}`} passHref>
         <a>
           <strong>By @{post.username} at </strong>
+        </a>
+      </Link>
+
+      <Link href={`/${post.username}/${post.slug}`} passHref>
+        <a>
           <strong>{createdAt != null && createdAt}</strong>
         </a>
       </Link>
@@ -43,6 +49,18 @@ function PostItem({ post, admin = false }) {
         <span>
           {wordCount} words. {minutesToRead} min read
         </span>
+
+        <Link href={`/${post.username}/${post.slug}#comments`} passHref>
+          <div className="commentsCount">
+            <Image
+              src={"/comment_icon.png"}
+              width="24"
+              height="24"
+              alt="Show replies"
+            />
+            <strong>{post.commentsCount ?? 0}</strong>
+          </div>
+        </Link>
       </footer>
 
       {/* If admin view, show extra controls for user */}

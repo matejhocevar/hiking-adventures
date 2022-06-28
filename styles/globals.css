@@ -196,6 +196,19 @@ button.btn-logo {
 
 .card footer {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card footer .commentsCount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.card footer .commentsCount strong {
+  margin-left: 4px;
 }
 
 .card-img-center {

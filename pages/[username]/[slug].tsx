@@ -25,6 +25,7 @@ import Reactions from "../../components/Reactions";
 import PageFooter from "../../components/PageFooter";
 import PostViewsCount from "../../components/PostViewsCount";
 import AdminCheck from "../../components/AdminCheck";
+import Comments from "../../components/Comments";
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
@@ -100,6 +101,10 @@ export default function PostPage(props) {
               <PostViewsCount postRef={postRef} />
             </AdminCheck>
           </div>
+        </section>
+
+        <section id="comments" className="card">
+          <Comments postRef={postRef} postAuthorUid={post.uid}></Comments>
         </section>
       </main>
 
