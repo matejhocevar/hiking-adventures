@@ -76,8 +76,6 @@ export default function PostPage(props) {
 
   const post = realtimePost || props.post;
 
-  console.log(post);
-
   return (
     <>
       <main className={styles.container}>
