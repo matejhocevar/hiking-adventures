@@ -12,7 +12,7 @@ export default function CommentItem({ comment, postRef, postAuthorUid }) {
   const [isHover, setIsHover] = useState(false);
 
   const isAuthor = postAuthorUid === uid;
-  const isCommentor = user.uid === uid;
+  const isCommentor = user?.uid === uid;
 
   const createdAt =
     typeof comment?.createdAt === "number"

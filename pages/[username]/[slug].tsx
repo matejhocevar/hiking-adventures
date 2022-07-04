@@ -76,6 +76,8 @@ export default function PostPage(props) {
 
   const post = realtimePost || props.post;
 
+  console.log(post);
+
   return (
     <>
       <main className={styles.container}>
@@ -104,7 +106,7 @@ export default function PostPage(props) {
         </section>
 
         <section id="comments" className="card">
-          <Comments postRef={postRef} postAuthorUid={post?.uid}></Comments>
+          <Comments postRef={postRef} postAuthorUid={post.uid}></Comments>
         </section>
       </main>
 
